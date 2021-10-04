@@ -23,8 +23,10 @@ export class BulkImportService implements OnModuleInit {
   async parseAndImportCsv() {
     const existingPokemons = await this.pokemonsRepository.getPokemons({
       search: '',
+      page: 1,
+      limit: 1,
     });
-    if (existingPokemons.length === 0) {
+    if (existingPokemons.items.length === 0) {
       this.logger.log('Performing bulk Pokemons creation based on csv file');
       const stream = createReadStream('./csv_db/pokemon.csv');
       const pokemonsList: any = await this.csvParser.parse(stream, Pokemon);

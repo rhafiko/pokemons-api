@@ -16,6 +16,7 @@ import { GetPokemonsFilterDto } from './dto/get-pokemons-filter.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Pokemon } from './entity/pokemon.entity';
 import { PokemonsService } from './services/pokemons.service';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('pokemons')
 @UseGuards(AuthGuard())
@@ -27,7 +28,7 @@ export class PokemonsController {
   getPokemons(
     @Query()
     filterDto: GetPokemonsFilterDto,
-  ): Promise<Pokemon[]> {
+  ): Promise<Pagination<Pokemon>> {
     return this.pokemonsService.getPokemons(filterDto);
   }
 

@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GetPokemonsFilterDto {
@@ -6,4 +6,12 @@ export class GetPokemonsFilterDto {
   @ApiProperty()
   @IsString()
   search?: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  page: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  limit: number;
 }

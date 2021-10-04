@@ -4,14 +4,16 @@ import { GetPokemonsFilterDto } from '../dto/get-pokemons-filter.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 import { Pokemon } from '../entity/pokemon.entity';
 import { InternalServerErrorException, Logger } from '@nestjs/common';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @EntityRepository(Pokemon)
 export class PokemonsRepository extends Repository<Pokemon> {
   private logger = new Logger('PokemonsRepository', { timestamp: true });
 
-  async getPokemons(filterDto: GetPokemonsFilterDto): Promise<Pokemon[]> {
+  async getPokemons(
+    filterDto: GetPokemonsFilterDto,
+  ): Promise<Pagination<Pokemon>> {
     const { search } = filterDto;
-
     const query = this.createQueryBuilder('pokemon');
 
     if (search) {
@@ -24,10 +26,13 @@ export class PokemonsRepository extends Repository<Pokemon> {
         },
       );
     }
+    query.orderBy('number, name', 'ASC');
 
     try {
-      const pokemons = await query.orderBy('number, name', 'ASC').getMany();
-      return pokemons;
+      return paginate<Pokemon>(query, {
+        page: filterDto.page,
+        limit: filterDto.limit,
+      });
     } catch (error) {
       this.logger.error(
         `Failed to get pokemons from . Filters: ${JSON.stringify(filterDto)}`,

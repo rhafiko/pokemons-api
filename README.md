@@ -47,10 +47,16 @@ $ npm install
 - Running on the development environment, it is necessary to change the DATABASE_URL located in the file:
 
 ```html
-src/environment .env.stage.dev
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/pokemons Current value:
-user......: postgres password..: postgres host......: localhost port......: 5432
-database..: pokemons
+src/environment 
+	.env.stage.dev
+
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/pokemons 
+Current value:
+	user......: postgres 
+	password..: postgres 
+	host......: localhost 
+	port......: 5432
+	database..: pokemons
 ```
 
 - Just create the database pokemons.
@@ -161,7 +167,182 @@ curl -X 'POST' \
 
 ```javascript
 curl -X 'GET' \
- 'http://localhost:3000/pokemons?search=' \
+ 'http://localhost:3000/pokemons?search=&page=1&limit=10' \
  -H 'accept: _/_' \
  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hamliIiwiaWF0IjoxNjMzMzExOTQ0LCJleHAiOjE2MzMzMTU1NDR9.-b5KVUmbj-NRP4WFP1ofE44LMCZFoOVCroBPz39BLTo'
+```
+
+- Like the example below, the returned data will always be paginated.
+```javascript
+{
+   "items":[
+      {
+         "id":1,
+         "number":1,
+         "name":"Bulbasaur",
+         "type_1":"Grass",
+         "type_2":"Poison",
+         "total":318,
+         "hp":45,
+         "attack":49,
+         "defense":49,
+         "sp_atk":65,
+         "sp_def":65,
+         "speed":45,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":8,
+         "number":2,
+         "name":"Ivysaur",
+         "type_1":"Grass",
+         "type_2":"Poison",
+         "total":405,
+         "hp":60,
+         "attack":62,
+         "defense":63,
+         "sp_atk":80,
+         "sp_def":80,
+         "speed":60,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":7,
+         "number":3,
+         "name":"Venusaur",
+         "type_1":"Grass",
+         "type_2":"Poison",
+         "total":525,
+         "hp":80,
+         "attack":82,
+         "defense":83,
+         "sp_atk":100,
+         "sp_def":100,
+         "speed":80,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":6,
+         "number":3,
+         "name":"VenusaurMega Venusaur",
+         "type_1":"Grass",
+         "type_2":"Poison",
+         "total":625,
+         "hp":80,
+         "attack":100,
+         "defense":123,
+         "sp_atk":122,
+         "sp_def":120,
+         "speed":80,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":4,
+         "number":4,
+         "name":"Charmander",
+         "type_1":"Fire",
+         "type_2":"",
+         "total":309,
+         "hp":39,
+         "attack":52,
+         "defense":43,
+         "sp_atk":60,
+         "sp_def":50,
+         "speed":65,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":2,
+         "number":5,
+         "name":"Charmeleon",
+         "type_1":"Fire",
+         "type_2":"",
+         "total":405,
+         "hp":58,
+         "attack":64,
+         "defense":58,
+         "sp_atk":80,
+         "sp_def":65,
+         "speed":80,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":3,
+         "number":6,
+         "name":"Charizard",
+         "type_1":"Fire",
+         "type_2":"Flying",
+         "total":534,
+         "hp":78,
+         "attack":84,
+         "defense":78,
+         "sp_atk":109,
+         "sp_def":85,
+         "speed":100,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":9,
+         "number":6,
+         "name":"CharizardMega Charizard X",
+         "type_1":"Fire",
+         "type_2":"Dragon",
+         "total":634,
+         "hp":78,
+         "attack":130,
+         "defense":111,
+         "sp_atk":130,
+         "sp_def":85,
+         "speed":100,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":5,
+         "number":6,
+         "name":"CharizardMega Charizard Y",
+         "type_1":"Fire",
+         "type_2":"Flying",
+         "total":634,
+         "hp":78,
+         "attack":104,
+         "defense":78,
+         "sp_atk":159,
+         "sp_def":115,
+         "speed":100,
+         "generation":1,
+         "legendary":false
+      },
+      {
+         "id":10,
+         "number":7,
+         "name":"Squirtle",
+         "type_1":"Water",
+         "type_2":"",
+         "total":314,
+         "hp":44,
+         "attack":48,
+         "defense":65,
+         "sp_atk":50,
+         "sp_def":64,
+         "speed":43,
+         "generation":1,
+         "legendary":false
+      }
+   ],
+   "meta":{
+      "totalItems":800,
+      "itemCount":10,
+      "itemsPerPage":10,
+      "totalPages":80,
+      "currentPage":1
+   }
+}
 ```

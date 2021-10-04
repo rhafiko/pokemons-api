@@ -5,6 +5,7 @@ import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 import { PokemonsRepository } from '../repository/pokemons.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pokemon } from '../entity/pokemon.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
 @Injectable()
 export class PokemonsService {
   constructor(
@@ -12,7 +13,9 @@ export class PokemonsService {
     private pokemonsRepository: PokemonsRepository,
   ) {}
 
-  async getPokemons(filterDto: GetPokemonsFilterDto): Promise<Pokemon[]> {
+  async getPokemons(
+    filterDto: GetPokemonsFilterDto,
+  ): Promise<Pagination<Pokemon>> {
     return this.pokemonsRepository.getPokemons(filterDto);
   }
 
