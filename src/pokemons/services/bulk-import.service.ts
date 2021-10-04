@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { PokemonsRepository } from '../repository/pokemons.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pokemon } from '../entity/pokemon.entity';
+import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { CsvParser } from 'nest-csv-parser';
 import { createReadStream } from 'fs';
 import { validate } from 'class-validator';
@@ -34,8 +35,7 @@ export class BulkImportService implements OnModuleInit {
             '#,Name,Type 1,Type 2,Total,HP,Attack,Defense,Sp. Atk,Sp. Def,Speed,Generation,Legendary'
           ].split(',');
 
-        const newPokemon = new Pokemon(
-          0,
+        const newPokemon = new CreatePokemonDto(
           parseInt(line[0]),
           line[1],
           line[2],
