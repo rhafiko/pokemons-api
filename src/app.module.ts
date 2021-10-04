@@ -4,6 +4,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './environment/config.schema';
 import { PokemonsModule } from './pokemons/pokemons.module';
+import { CsvModule } from 'nest-csv-parser';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,6 +29,7 @@ import { PokemonsModule } from './pokemons/pokemons.module';
     }),
     AuthModule,
     PokemonsModule,
+    CsvModule,
   ],
   controllers: [],
   providers: [],

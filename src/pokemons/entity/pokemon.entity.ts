@@ -6,6 +6,9 @@ export class Pokemon {
   id: number;
 
   @Column()
+  number: number;
+
+  @Column()
   name: string;
 
   @Column()

@@ -26,6 +26,10 @@
 
 This is the App `Pokemons API` which allows maintain the list of Pokemons, based on the CSV file located at https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6
 
+Users need to create an account and sign in to have access to the API.
+
+Please see the topic `#How To`
+
 ### See it running at Heroku
 
 - [API Pokemons](https://pokemons-api-nestjs.herokuapp.com/api/)
@@ -43,16 +47,10 @@ $ npm install
 - Running on the development environment, it is necessary to change the DATABASE_URL located in the file:
 
 ```html
-src/environment 
-  .env.stage.dev
-
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/pokemons 
-Current value:
-  user......: postgres 
-  password..: postgres 
-  host......: localhost 
-  port......: 5432
-  database..: pokemons
+src/environment .env.stage.dev
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/pokemons Current value:
+user......: postgres password..: postgres host......: localhost port......: 5432
+database..: pokemons
 ```
 
 - Just create the database pokemons.
@@ -71,6 +69,7 @@ CREATE TABLE public."user" (
 
 CREATE TABLE public.pokemon (
 	id serial NOT NULL,
+	number int4 NOT NULL,
 	"name" varchar NOT NULL,
 	type_1 varchar NOT NULL,
 	type_2 varchar NOT NULL,
@@ -94,4 +93,75 @@ CREATE TABLE public.pokemon (
 # development (localhost)
 $ npm run start:dev
 
+```
+
+- The server will be available on port 3000 of your local machine (http://localhost:3000/api/).
+
+```bash
+http://localhost:3000/api/
+```
+
+## How To
+
+To Acquire your authentication credentials, it is necessary:
+
+1. Create an user account using the `auth/signup` operation:
+
+```javascript
+{
+  "username": "pedro",
+  "password": "superPassword123"
+}
+```
+
+- Call example:
+
+```javascript
+curl -X 'POST' \
+  'http://localhost:3000/auth/signup' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "pedro",
+  "password": "superPassword123"
+}'
+```
+
+2. Perform the signin using the `auth/signin` operation:
+
+```javascript
+{
+  "username": "pedro",
+  "password": "superPassword123"
+}
+```
+
+- Call example:
+
+```javascript
+curl -X 'POST' \
+  'http://localhost:3000/auth/signin' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "pedro",
+  "password": "superPassword123"
+}'
+```
+
+- The API will give you an Access Token (JWT):
+
+```javascript
+{
+"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hamliIiwiaWF0IjoxNjMzMzExOTQ0LCJleHAiOjE2MzMzMTU1NDR9.-b5KVUmbj-NRP4WFP1ofE44LMCZFoOVCroBPz39BLTo"
+}
+```
+
+3. Now to perform any Pokemon API operation it is necessary to inform the given Access Token (JWT) over the Authorization option:
+
+```javascript
+curl -X 'GET' \
+ 'http://localhost:3000/pokemons?search=' \
+ -H 'accept: _/_' \
+ -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hamliIiwiaWF0IjoxNjMzMzExOTQ0LCJleHAiOjE2MzMzMTU1NDR9.-b5KVUmbj-NRP4WFP1ofE44LMCZFoOVCroBPz39BLTo'
 ```

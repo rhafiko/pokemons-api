@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { GetPokemonsFilterDto } from './dto/get-pokemons-filter.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
@@ -18,6 +19,7 @@ import { PokemonsService } from './services/pokemons.service';
 
 @Controller('pokemons')
 @UseGuards(AuthGuard())
+@ApiBearerAuth()
 export class PokemonsController {
   constructor(private pokemonsService: PokemonsService) {}
 

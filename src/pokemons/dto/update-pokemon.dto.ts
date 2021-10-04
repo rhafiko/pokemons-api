@@ -8,6 +8,10 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 export class UpdatePokemonDto {
   @ApiProperty()
+  @IsNumber()
+  number: number;
+
+  @ApiProperty()
   @MinLength(4, {
     message: 'Name must be longer than or equal to 4 characters',
   })

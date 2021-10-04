@@ -11,6 +11,7 @@ async function bootstrap() {
     .setDescription('Pokemons API description')
     .setVersion('1.0')
     .addTag('pokemons')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

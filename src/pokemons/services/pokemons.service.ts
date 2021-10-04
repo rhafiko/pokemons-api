@@ -5,7 +5,6 @@ import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 import { PokemonsRepository } from '../repository/pokemons.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pokemon } from '../entity/pokemon.entity';
-
 @Injectable()
 export class PokemonsService {
   constructor(

@@ -15,13 +15,18 @@ export class PokemonsRepository extends Repository<Pokemon> {
     const query = this.createQueryBuilder('pokemon');
 
     if (search) {
-      query.andWhere('LOWER(pokemon.name) LIKE LOWER(:search)', {
-        search: `%${search}%`,
-      });
+      query.andWhere(
+        'LOWER(pokemon.name) LIKE LOWER(:search) \
+        OR LOWER(pokemon.type_1) LIKE LOWER(:search) \
+        OR LOWER(pokemon.type_2) LIKE LOWER(:search)',
+        {
+          search: `%${search}%`,
+        },
+      );
     }
 
     try {
-      const pokemons = await query.getMany();
+      const pokemons = await query.orderBy('number, name', 'ASC').getMany();
       return pokemons;
     } catch (error) {
       this.logger.error(
@@ -34,6 +39,7 @@ export class PokemonsRepository extends Repository<Pokemon> {
 
   async createPokemon(createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
     const {
+      number,
       name,
       type_1,
       type_2,
@@ -49,6 +55,7 @@ export class PokemonsRepository extends Repository<Pokemon> {
     } = createPokemonDto;
 
     const pokemon = this.create({
+      number,
       name,
       type_1,
       type_2,
@@ -77,6 +84,7 @@ export class PokemonsRepository extends Repository<Pokemon> {
     updatePokemonDto: UpdatePokemonDto,
   ): Promise<Pokemon> {
     const {
+      number,
       name,
       type_1,
       type_2,
@@ -91,6 +99,7 @@ export class PokemonsRepository extends Repository<Pokemon> {
       legendary,
     } = updatePokemonDto;
 
+    foundPokemon.number = number;
     foundPokemon.name = name;
     foundPokemon.type_1 = type_1;
     foundPokemon.type_2 = type_2;
@@ -111,5 +120,47 @@ export class PokemonsRepository extends Repository<Pokemon> {
       throw new InternalServerErrorException();
     }
     return foundPokemon;
+  }
+
+  async createPokemonFromCsv(pokemonFromCsv: any): Promise<Pokemon> {
+    const {
+      number,
+      name,
+      type_1,
+      type_2,
+      total,
+      hp,
+      attack,
+      defense,
+      sp_atk,
+      sp_def,
+      speed,
+      generation,
+      legendary,
+    } = pokemonFromCsv;
+
+    const pokemon = this.create({
+      number,
+      name,
+      type_1,
+      type_2,
+      total,
+      hp,
+      attack,
+      defense,
+      sp_atk,
+      sp_def,
+      speed,
+      generation,
+      legendary,
+    });
+
+    try {
+      await this.save(pokemon);
+    } catch (error) {
+      this.logger.error(`Failed to create a new pokemon ${name}.`, error.stack);
+      throw new InternalServerErrorException();
+    }
+    return pokemon;
   }
 }
