@@ -124,7 +124,7 @@ To Acquire your authentication credentials, it is necessary:
 
 ```javascript
 curl -X 'POST' \
-  'http://localhost:3000/auth/signup' \
+  'https://pokemons-api-nestjs.herokuapp.com/auth/signup' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -146,7 +146,7 @@ curl -X 'POST' \
 
 ```javascript
 curl -X 'POST' \
-  'http://localhost:3000/auth/signin' \
+  'https://pokemons-api-nestjs.herokuapp.com/auth/signin' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -167,7 +167,7 @@ curl -X 'POST' \
 
 ```javascript
 curl -X 'GET' \
- 'http://localhost:3000/pokemons?search=&page=1&limit=10' \
+ 'https://pokemons-api-nestjs.herokuapp.com/pokemons?search=&page=1&limit=10' \
  -H 'accept: _/_' \
  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hamliIiwiaWF0IjoxNjMzMzExOTQ0LCJleHAiOjE2MzMzMTU1NDR9.-b5KVUmbj-NRP4WFP1ofE44LMCZFoOVCroBPz39BLTo'
 ```
