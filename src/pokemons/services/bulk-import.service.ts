@@ -33,26 +33,28 @@ export class BulkImportService implements OnModuleInit {
             '#,Name,Type 1,Type 2,Total,HP,Attack,Defense,Sp. Atk,Sp. Def,Speed,Generation,Legendary'
           ].split(',');
 
-        const newPokemon = [
-          {
-            number: line[0],
-            name: line[1],
-            type_1: line[2],
-            type_2: line[3],
-            total: line[4],
-            hp: line[5],
-            attack: line[6],
-            defense: line[7],
-            sp_atk: line[8],
-            sp_def: line[9],
-            speed: line[10],
-            generation: line[11],
-            legendary: line[12] === 'True' ? true : false,
-          },
-        ][0];
-
+        const newPokemon = {
+          number: line[0],
+          name: line[1],
+          type_1: line[2],
+          type_2: line[3],
+          total: line[4],
+          hp: line[5],
+          attack: line[6],
+          defense: line[7],
+          sp_atk: line[8],
+          sp_def: line[9],
+          speed: line[10],
+          generation: line[11],
+          legendary: line[12] === 'True' ? true : false,
+        };
         if (newPokemon.number != null) {
           await this.pokemonsRepository.createPokemonFromCsv(newPokemon);
+        } else {
+          this.logger.error(
+            'Found an INVALID Pokemon entry on the .csv file. Please check it.',
+            newPokemon,
+          );
         }
       });
     } else {
