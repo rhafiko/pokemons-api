@@ -122,7 +122,7 @@ export class PokemonsRepository extends Repository<Pokemon> {
     return foundPokemon;
   }
 
-  async createPokemonFromCsv(pokemonFromCsv: any): Promise<Pokemon> {
+  async createPokemonFromCsv(pokemonFromCsv: Pokemon): Promise<Pokemon> {
     const {
       number,
       name,

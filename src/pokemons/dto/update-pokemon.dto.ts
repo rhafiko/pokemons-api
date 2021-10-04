@@ -1,6 +1,6 @@
 import {
   IsBoolean,
-  IsNumber,
+  IsInt,
   IsOptional,
   MaxLength,
   Min,
@@ -9,7 +9,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 export class UpdatePokemonDto {
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   number: number;
 
@@ -36,42 +36,42 @@ export class UpdatePokemonDto {
   type_2: string;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   total: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   hp: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   attack: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   defense: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   sp_atk: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   sp_def: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   speed: number;
 
   @ApiProperty()
-  @IsNumber()
+  @IsInt()
   @Min(1)
   generation: number;
 

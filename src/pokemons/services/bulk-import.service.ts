@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Pokemon } from '../entity/pokemon.entity';
 import { CsvParser } from 'nest-csv-parser';
 import { createReadStream } from 'fs';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class BulkImportService implements OnModuleInit {
@@ -33,28 +34,27 @@ export class BulkImportService implements OnModuleInit {
             '#,Name,Type 1,Type 2,Total,HP,Attack,Defense,Sp. Atk,Sp. Def,Speed,Generation,Legendary'
           ].split(',');
 
-        const newPokemon = {
-          number: line[0],
-          name: line[1],
-          type_1: line[2],
-          type_2: line[3],
-          total: line[4],
-          hp: line[5],
-          attack: line[6],
-          defense: line[7],
-          sp_atk: line[8],
-          sp_def: line[9],
-          speed: line[10],
-          generation: line[11],
-          legendary: line[12] === 'True' ? true : false,
-        };
-        if (newPokemon.number != null) {
-          await this.pokemonsRepository.createPokemonFromCsv(newPokemon);
+        const newPokemon = new Pokemon(
+          0,
+          parseInt(line[0]),
+          line[1],
+          line[2],
+          line[3],
+          parseInt(line[4]),
+          parseInt(line[5]),
+          parseInt(line[6]),
+          parseInt(line[7]),
+          parseInt(line[8]),
+          parseInt(line[9]),
+          parseInt(line[10]),
+          parseInt(line[11]),
+          line[12] === 'True' ? true : false,
+        );
+        const errors = await validate(newPokemon);
+        if (errors.length > 0) {
+          this.logger.error(errors, line);
         } else {
-          this.logger.error(
-            'Found an INVALID Pokemon entry on the .csv file. Please check it.',
-            newPokemon,
-          );
+          await this.pokemonsRepository.createPokemonFromCsv(newPokemon);
         }
       });
     } else {
