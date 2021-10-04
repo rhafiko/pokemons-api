@@ -13,7 +13,7 @@ export class PokemonsRepository extends Repository<Pokemon> {
   async getPokemons(
     filterDto: GetPokemonsFilterDto,
   ): Promise<Pagination<Pokemon>> {
-    const { search } = filterDto;
+    const { search, page, limit } = filterDto;
     const query = this.createQueryBuilder('pokemon');
 
     if (search) {
@@ -30,8 +30,8 @@ export class PokemonsRepository extends Repository<Pokemon> {
 
     try {
       return paginate<Pokemon>(query, {
-        page: filterDto.page,
-        limit: filterDto.limit,
+        page,
+        limit,
       });
     } catch (error) {
       this.logger.error(
